@@ -1,0 +1,4 @@
+function doAnotherAlert()
+{
+	alert("AnotherAlert");
+}
