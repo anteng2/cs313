@@ -21,7 +21,6 @@
 			$votes[0] = intval($votes[0]) + 1;
 		else
 			$votes[1] = intval($votes[1]) + 1;
-		//echo $votes[0] . $votes[1];
 	} 
 
 	if (isset($_POST['meat']) && !empty($_POST['meat']))
@@ -30,7 +29,6 @@
 			$votes[2] = intval($votes[2]) + 1;
 		else
 			$votes[3] = intval($votes[3]) + 1;
-		//echo $votes[2] . $votes[3];
 	} 
 
 	if (isset($_POST['place']) && !empty($_POST['place']))
@@ -39,7 +37,6 @@
 			$votes[4] = intval($votes[4]) + 1;
 		else
 			$votes[5] = intval($votes[5]) + 1;
-		//echo $votes[4] . $votes[5];
 	} 
 
 	if (isset($_POST['hero']) && !empty($_POST['hero']))
@@ -48,7 +45,6 @@
 			$votes[6] = intval($votes[6]) + 1;
 		else
 			$votes[7] = intval($votes[7]) + 1;
-		//echo $votes[6] . $votes[7];
 	} 
 
 	$allData = null;
