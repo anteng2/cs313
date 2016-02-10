@@ -1,5 +1,5 @@
 <?php
-    include('openshif.php');
+    include('openshift.php');
 
 	
 	if (isset($_POST['formsubmitted'])) {
