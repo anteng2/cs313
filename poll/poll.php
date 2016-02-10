@@ -1,5 +1,6 @@
 <?php
 include('openshift.php');
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +41,13 @@ include('openshift.php');
 	          <ul class="nav navbar-nav">
 	            <li><a href="index.php" class="smothscroll">Home</a></li>
 	            <li class="active"><a href="" class="smothscroll">Polls</a></li>
-	            <li><a href="" class="smothScroll">Sign up</a></li>
+				<?php if (isset($_SESSION['name'])) { ?>
+				<?php $name = $_SESSION['name']; ?>
+	            <li><a href="logout.php"><b><?php echo $name; ?></b></a></li>
+				<?php } else { ?>
+				 <li><a href="signin.php" class="smothScroll">Sign in</a></li>
+				 <li><a href="register.php" class="smothScroll">Sign up</a></li>
+				<?php } ?>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>

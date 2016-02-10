@@ -1,5 +1,8 @@
 <?php
+session_start();
+
 include('openshift.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,12 +26,8 @@ include('openshift.php');
     
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/smoothscroll.js"></script>
-    
-
   </head>
-
   <body data-spy="scroll" data-offset="0" data-target="#navigation">
-
     <!-- Fixed navbar -->
 	    <div id="navigation" class="navbar navbar-default navbar-fixed-top">
 	      <div class="container">
@@ -44,7 +43,13 @@ include('openshift.php');
 	          <ul class="nav navbar-nav">
 	            <li class="active"><a href="#home" class="smothscroll">Home</a></li>
 	            <li><a href="poll.php" class="smothscroll">Polls</a></li>
-	            <li><a href="" class="smothScroll">Sign up</a></li>
+				<?php if (isset($_SESSION['name'])) { ?>
+				<?php $name = $_SESSION['name']; ?>
+	            <li><a href="logout.php"><b><?php echo $name; ?></b></a></li>
+				<?php } else { ?>
+				 <li><a href="signin.php" class="smothScroll">Sign in</a></li>
+				 <li><a href="register.php" class="smothScroll">Sign up</a></li>
+				<?php } ?>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
