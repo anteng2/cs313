@@ -1,13 +1,6 @@
 <?php
-	try
-	{
-		$db = new PDO('mysql:host=localhost;dbname=poll', 'root', '');
-	}
-	catch (PDOException $ex)
-	{
-		echo "Error: ". $ex->getMessage();
-		die();
-	}
+    include('openshif.php');
+
 	
 	if (isset($_POST['formsubmitted'])) {
     $error = array();//Declare An Array to store any error message  
