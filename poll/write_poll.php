@@ -1,17 +1,36 @@
 <?php
 include('openshift.php');
+session_start();
 
 	
-	$id = $_GET['id'];
-	
-	$stmt = $db->prepare("SELECT * FROM room WHERE id=$id");
-	$stmt->execute();
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	
-	$userId = $row['u_id'];
-	$stmt = $db->prepare("SELECT userName FROM user WHERE id=$userId");
-	$stmt->execute();
-	$userId = $stmt->fetch(PDO::FETCH_ASSOC);
+	if (isset($_POST['title']))
+	{
+		$u_id = $_SESSION['id'];
+		$title = $_POST['title'];
+		$content = $_POST['content'];
+		$optionOneTitle = $_POST['optionOneTitle'];
+		$optionTwoTitle = $_POST['optionTwoTitle'];
+		$optionOneContent = $_POST['optionOneContent'];
+		$optionTwoContent = $_POST['optionTwoContent'];
+		
+		
+		$stmt = $db->prepare("INSERT INTO room (title, content, picId1, picId2, u_id, option_title1, option_title2, option1_content, option2_content) VALUES 
+		(:title, :content, '1', '2', :u_id, :optionOneTitle, :optionTwoTitle, :optionOneContent, :optionTwoContent)");
+		
+		$stmt->bindParam(':title', $title);
+		$stmt->bindParam(':content', $content);
+		$stmt->bindParam(':u_id', $u_id);
+		$stmt->bindParam(':optionOneTitle', $optionOneTitle);
+		$stmt->bindParam(':optionTwoTitle', $optionTwoTitle);
+		$stmt->bindParam(':optionOneContent', $optionOneContent);
+		$stmt->bindParam(':optionTwoContent', $optionTwoContent);
+		
+		$stmt->execute();
+		
+		$lastId = $db->lastInsertId();
+		
+		header("Location: view_poll.php?id=$lastId"); 
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,43 +73,54 @@ include('openshift.php');
 	        <div class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav">
 	            <li><a href="index.php" class="smothscroll">Home</a></li>
-	            <li class="active"><a href="poll.php" class="smothscroll">Polls</a></li>
-	            <li><a href="" class="smothScroll">Sign up</a></li>
+	            <li><a href="poll.php" class="smothscroll">Polls</a></li>
+				<?php if (isset($_SESSION['name'])) { ?>
+				<?php $name = $_SESSION['name']; ?>
+				<li class="active"><a href="write_poll.php">Create a Poll</a></li>
+				<li><a href="logout.php"><b><?php echo $name; ?></b></a></li>
+				<?php } else { ?>
+				 <li><a href="signin.php" class="smothScroll">Sign in</a></li>
+				 <li><a href="register.php" class="smothScroll">Sign up</a></li>
+				<?php } ?>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
 	    </div>
 	<!-- INTRO WRAP -->
-	<div>
 		<div class="container">
 			<div class="row">
-				<h1>
-					<?php echo $row['title']; ?> <span class="pull-right"><?php echo $userId['userName']; ?></span><br />
-				</h1>
-				<hr />
-				<br>
-				<div class="col-lg-6">
-					<img src="assets/img/intro01.png" alt="">
-					<h3><?php echo $row['option_title1']; ?></h3>
-					<p><?php echo $row['option1_content']; ?></p>
-				</div>
-				<div class="col-lg-6">
-					<img src="assets/img/intro01.png" alt="">
-					<h3><?php echo $row['option_title2']; ?></h3>
-					<p><?php echo $row['option2_content']; ?></p>
-				</div>
-			</div>	
+				<h1>Create a Poll</h1>
+				<br>	
+				<form action="write_poll.php" method="POST">
+					<label for="title">Poll Title</label><br />
+					<input type="text" class="form-control" id="title" name="title" required="required"/>
+					<label for="content">Content</label><br />
+					<textarea type="text" class="form-control" id="content" name="content" required="required"/></textarea>
 			<div class="row">
-				<div class="col-lg-12">
-					<h3><b>Description</b></h3>
-					<p>
-						<?php echo $row['content']; ?>
-					</p>
-				</div>	
-				</div>
-			</div>					
-	    </div> <!--/ .container -->
-	</div><!--/ #introwrap -->
+					<div class="col-md-6">
+						<label for="optionOneTitle">Option 1 Title</label><br />
+						<input type="text" class="form-control" id="optionOneTitle" name="optionOneTitle" required="required" />
+					</div>
+					<div class="col-md-6">
+						<label for="optionTwoTitle">Option 2 Title</label><br />
+						<input type="text" class="form-control" id="optionTwoTitle" name="optionTwoTitle" required="required" />
+					</div>
+			</div>
+			<div class="row">
+			<div class="col-md-6">
+					<label for="optionOneContent">Option 1 Content</label><br />
+					<textarea type="text" class="form-control" id="optionOneContent" name="optionOneContent" required="required" ></textarea>
+					</div>
+					<div class="col-md-6">
+					<label for="optionTwoContent">Option 2 Content</label><br />
+					<textarea  type="text" class="form-control" id="optionTwoContent" name="optionTwoContent" required="required" ></textarea>
+					</div>
+			</div>	
+				<br />
+				<input type="submit" value="Create a Poll" class="form-control btn btn-primary"/>
+				</form>
+			</div>		
+		</div>			
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

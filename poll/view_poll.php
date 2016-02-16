@@ -1,5 +1,6 @@
 <?php
 include('openshift.php');
+
 session_start();
 	
 	$id = $_GET['id'];
@@ -57,6 +58,7 @@ session_start();
 	            <li class="active"><a href="poll.php" class="smothscroll">Polls</a></li>
 				<?php if (isset($_SESSION['name'])) { ?>
 				<?php $name = $_SESSION['name']; ?>
+				<li><a href="write_poll.php">Create a Poll</a></li>
 	            <li><a href="logout.php"><b><?php echo $name; ?></b></a></li>
 				<?php } else { ?>
 				 <li><a href="signin.php" class="smothScroll">Sign in</a></li>

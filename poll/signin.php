@@ -1,5 +1,5 @@
 <?php
-    include('openshift.php');
+include('openshift.php');
 
 	if (isset($_POST['formsubmitted'])) {
     // Initialize a session:

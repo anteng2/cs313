@@ -1,5 +1,6 @@
 <?php
 include('openshift.php');
+
 session_start();
 ?>
 <!DOCTYPE html>
@@ -43,7 +44,8 @@ session_start();
 	            <li class="active"><a href="" class="smothscroll">Polls</a></li>
 				<?php if (isset($_SESSION['name'])) { ?>
 				<?php $name = $_SESSION['name']; ?>
-	            <li><a href="logout.php"><b><?php echo $name; ?></b></a></li>
+				<li><a href="write_poll.php">Create a Poll</a></li>
+				<li><a href="logout.php"><b><?php echo $name; ?></b></a></li>
 				<?php } else { ?>
 				 <li><a href="signin.php" class="smothScroll">Sign in</a></li>
 				 <li><a href="register.php" class="smothScroll">Sign up</a></li>
@@ -62,8 +64,7 @@ session_start();
 			<div class="row">
 				<h1>Polls</h1>
 				<br>
-			<?php for ($i = 0; $i < 11; $i++) { ?>
-			<?php $row = $stmt->fetch(PDO::FETCH_ASSOC); ?>
+			<?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
 			<a href="view_poll.php?id=<?php echo $row['id']; ?>">
 					<div class="col-lg-4">
 						<img src="assets/img/intro01.png" alt="">

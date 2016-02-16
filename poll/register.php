@@ -1,7 +1,6 @@
 <?php
-    include('openshift.php');
+include('openshift.php');
 
-	
 	if (isset($_POST['formsubmitted'])) {
     $error = array();//Declare An Array to store any error message  
     if (empty($_POST['name'])) {//if no name has been supplied 
