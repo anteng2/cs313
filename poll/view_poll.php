@@ -13,6 +13,41 @@ session_start();
 	$stmt = $db->prepare("SELECT userName FROM user WHERE id=$userId");
 	$stmt->execute();
 	$userId = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+	if (isset($_POST['image1']))
+	{
+		$img1Id = $_POST['image1'];
+		$stmt0 = $db->prepare("SELECT numVote FROM picture WHERE id=$img1Id");
+		$stmt0->execute();
+		$row0 = $stmt0->fetch(PDO::FETCH_ASSOC);
+		
+		$numVote = $row0['numVote'];
+		
+		$numVote += 1;
+		
+
+		$stmt0 = $db->prepare("UPDATE picture SET numVote='$numVote' WHERE id='$img1Id'");
+		$stmt0->execute();
+		
+		
+	}
+	
+	if (isset($_POST['image2']))
+	{
+		$img2Id = $_POST['image2'];
+		$stmt0 = $db->prepare("SELECT numVote FROM picture WHERE id=$img2Id");
+		$stmt0->execute();
+		$row0 = $stmt0->fetch(PDO::FETCH_ASSOC);
+		
+		$numVote = $row0['numVote'];
+		
+		$numVote += 1;
+
+		$stmt0 = $db->prepare("UPDATE picture SET numVote='$numVote' WHERE id='$img2Id'");
+		$stmt0->execute();
+		
+		
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,15 +113,29 @@ session_start();
 				<hr />
 				<br>
 				<div class="col-lg-6">
-					<img src="assets/img/intro01.png" alt="">
-					<h3><?php echo $row['option_title1']; ?></h3>
+					<?php 
+						$picId1 = $row['picId1'];
+						$picId2 = $row['picId2'];
+						
+						$stmt = $db->prepare("SELECT * FROM picture WHERE id=$picId1");
+						$stmt->execute();
+						$picture1 = $stmt->fetch(PDO::FETCH_ASSOC);
+						
+						$stmt = $db->prepare("SELECT * FROM picture WHERE id=$picId2");
+						$stmt->execute();
+						$picture2 = $stmt->fetch(PDO::FETCH_ASSOC);
+					?>
+				<form action="view_poll.php?id=<?php echo $_GET['id']; ?>" method="POST">
+					<input type="image" name="image1" value="<?php echo $picId1; ?>" style="width: 569px; height: 350px" src="<?php echo $picture1['url']; ?>" alt="">
+					<h3><?php echo $row['option_title1']; ?> <span class="pull-right"><b>Vote:</b> <?php echo $picture1['numVote']; ?></span></h3>
 					<p><?php echo $row['option1_content']; ?></p>
 				</div>
 				<div class="col-lg-6">
-					<img src="assets/img/intro01.png" alt="">
-					<h3><?php echo $row['option_title2']; ?></h3>
+					<input type="image" name="image2" value="<?php echo $picId2; ?>" style="width: 569px; height: 350px" src="<?php echo $picture2['url']; ?>" alt="">
+					<h3><?php echo $row['option_title2']; ?> <span class="pull-right"><b>Vote:</b> <?php echo $picture2['numVote'];  ?></span></h3>
 					<p><?php echo $row['option2_content']; ?></p>
 				</div>
+				</form>
 			</div>	
 			<div class="row">
 				<div class="col-lg-12">

@@ -66,7 +66,7 @@ include('openshift.php');
 	    		</div>
 	    		<div class="col-lg-2">
 	    			<h5>Amazing Results</h5>
-	    			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+	    			<p>You get amazing results from amazing voting systems!</p>
 	    			<img class="hidden-xs hidden-sm hidden-md" src="assets/img/arrow1.png">
 	    		</div>
 	    		<div class="col-lg-8">
@@ -76,7 +76,7 @@ include('openshift.php');
 	    			<br>
 	    			<img class="hidden-xs hidden-sm hidden-md" src="assets/img/arrow2.png">
 	    			<h5>Fun Polls</h5>
-	    			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+	    			<p>You can create any polls you want; endless possibilities!</p>
 	    		</div>
 	    	</div>
 	    </div> <!--/ .container -->

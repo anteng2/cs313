@@ -1,5 +1,6 @@
 <?php
 include('openshift.php');
+
 session_start();
 
 	
@@ -12,13 +13,25 @@ session_start();
 		$optionTwoTitle = $_POST['optionTwoTitle'];
 		$optionOneContent = $_POST['optionOneContent'];
 		$optionTwoContent = $_POST['optionTwoContent'];
+		$optionOneURL = $_POST['optionOneURL'];
+		$optionTwoURL = $_POST['optionTwoURL'];
 		
+		$stmt = $db->prepare("INSERT INTO picture (url) VALUES (:optionOneURL), (:optionTwoURL)");
+		$stmt->bindParam(':optionOneURL', $optionOneURL);
+		$stmt->bindParam(':optionTwoURL', $optionTwoURL);
+		$stmt->execute();
 		
+		$lastId = $db->lastInsertId();
+		$lastId2 = $db->lastInsertId() + 1;
+
+		echo $lastId;
 		$stmt = $db->prepare("INSERT INTO room (title, content, picId1, picId2, u_id, option_title1, option_title2, option1_content, option2_content) VALUES 
-		(:title, :content, '1', '2', :u_id, :optionOneTitle, :optionTwoTitle, :optionOneContent, :optionTwoContent)");
+		(:title, :content, :lastId, :lastId2, :u_id, :optionOneTitle, :optionTwoTitle, :optionOneContent, :optionTwoContent)");
 		
 		$stmt->bindParam(':title', $title);
 		$stmt->bindParam(':content', $content);
+		$stmt->bindParam(':lastId', $lastId2);
+		$stmt->bindParam(':lastId2', $lastId);
 		$stmt->bindParam(':u_id', $u_id);
 		$stmt->bindParam(':optionOneTitle', $optionOneTitle);
 		$stmt->bindParam(':optionTwoTitle', $optionTwoTitle);
@@ -54,7 +67,37 @@ session_start();
     
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/smoothscroll.js"></script>
-    
+    <script>
+		function option1()
+		{
+			var value = document.getElementById("optionOneURL").value;
+			
+			if (value)
+			{
+				var html = "<img style=\"width: 569px; height: 350px; margin-top: 15px; margin-bottom: 10px;\" src=\"";
+				document.getElementById("pic1").innerHTML = html + value + '\">';
+			}
+			else
+			{
+				document.getElementById("pic1").innerHTML = "";
+			}
+		}
+		
+		function option2()
+		{
+			var value = document.getElementById("optionTwoURL").value;
+			
+			if (value)
+			{
+				var html = "<img style=\"width: 569px; height: 350px; margin-top: 15px; margin-bottom: 10px;\" src=\"";
+				document.getElementById("pic2").innerHTML = html + value + '\">';
+			}
+			else
+			{
+				document.getElementById("pic2").innerHTML = "";
+			}
+		}
+	</script>
 
   </head>
 
@@ -104,6 +147,22 @@ session_start();
 					<div class="col-md-6">
 						<label for="optionTwoTitle">Option 2 Title</label><br />
 						<input type="text" class="form-control" id="optionTwoTitle" name="optionTwoTitle" required="required" />
+					</div>
+			</div>
+			<div class="row">
+					<div id="pic1" class="col-md-6">
+					</div>
+					<div id="pic2" class="col-md-6">
+					</div>
+			</div>
+			<div class="row">
+					<div class="col-md-6">
+						<label for="optionOneURL">Option 1 Photo URL</label><br />
+						<input type="text" class="form-control" id="optionOneURL" onchange="option1()" name="optionOneURL" required="required" />
+					</div>
+					<div class="col-md-6">
+						<label for="optionTwoURL">Option 2 Photo URL</label><br />
+						<input type="text" class="form-control" id="optionTwoURL" onchange="option2()" name="optionTwoURL" required="required" />
 					</div>
 			</div>
 			<div class="row">

@@ -69,7 +69,7 @@ session_start();
 					<div class="col-lg-4">
 						<img src="assets/img/intro01.png" alt="">
 						<h3><?php echo $row['title']; ?></h3>
-						<p><?php echo $row['content']; ?></p>
+						<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; line-height: 1;"><?php echo $row['content']; ?></p>
 					</div>
 				</a>
 			<?php } ?>
